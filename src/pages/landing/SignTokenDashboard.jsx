@@ -869,7 +869,7 @@ const SignTokenDashboard = () => {
                               >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                                   <img
-                                    src="/SIGN6.jpeg"
+                                    src="/LOG1.jpeg"
                                     alt="$SIGN Token Logo"
                                     style={{ width: 16, height: 16, marginRight: 4 }}
                                   />
@@ -908,7 +908,7 @@ const SignTokenDashboard = () => {
                               >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                                   <img
-                                    src="/SIGN6.jpeg"
+                                    src="/LOG1.jpeg"
                                     alt="$SIGN Token Logo"
                                     style={{ width: 16, height: 16, marginRight: 4 }}
                                   />
