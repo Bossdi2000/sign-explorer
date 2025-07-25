@@ -744,7 +744,7 @@ const SignTokenDashboard = () => {
                   gap: 1,
                 }}
               >
-                <Analytics /> Transaction History
+                <Analytics /> Transaction Historys
               </Typography>
               <Typography
                 variant="body2"
