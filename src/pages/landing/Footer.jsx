@@ -1,24 +1,20 @@
-"use client";
-
-import { Box, Typography, Link } from '@mui/material';
+"use client"
+import { Box, Typography, Link } from "@mui/material"
 
 // Color scheme matching SignTokenDashboard
-const DEEP_ORANGE = '#FF4500';
-const JET_BLACK = '#0A0A0A';
-const NEON_ORANGE = '#FF6347';
-const TEXT_WHITE = '#FFFFFF';
+const DEEP_ORANGE = "#FF4500"
+const JET_BLACK = "#0A0A0A"
+const NEON_ORANGE = "#FF6347"
+const TEXT_WHITE = "#FFFFFF"
 
 const theme = {
   primary: DEEP_ORANGE,
   secondary: NEON_ORANGE,
   dark: JET_BLACK,
   text: TEXT_WHITE,
-};
+}
 
-const footerLinks = [
-  { label: 'About', path: '/' },
-   
-];
+const footerLinks = [{ label: "About", path: "/" }]
 
 const Footer = () => {
   return (
@@ -29,23 +25,23 @@ const Footer = () => {
         borderTop: `1px solid ${theme.primary}40`,
         py: { xs: 2, sm: 3, md: 4 },
         px: { xs: 2, sm: 3, md: 4, lg: 6 },
-        textAlign: 'center',
+        textAlign: "center",
         color: theme.text,
-        width: '100%',
-        maxWidth: '1600px',
-        mx: 'auto',
-        position: 'relative',
+        width: "100%",
+        maxWidth: "1600px",
+        mx: "auto",
+        position: "relative",
         zIndex: 1,
       }}
     >
       <Box
         sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: { xs: 'center', sm: 'space-around', md: 'space-between' },
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: { xs: "center", sm: "space-around", md: "space-between" },
           gap: { xs: 1.5, sm: 2, md: 3 },
           mb: { xs: 2, sm: 2.5, md: 3 },
-          flexDirection: { xs: 'column', sm: 'row' },
+          flexDirection: { xs: "column", sm: "row" },
         }}
       >
         {footerLinks.map((link) => (
@@ -54,19 +50,19 @@ const Footer = () => {
             href={link.path}
             sx={{
               color: theme.text,
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: "Inter, sans-serif",
               fontWeight: 500,
-              fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' },
-              textDecoration: 'none',
-              transition: 'all 0.2s ease-in-out',
-              '&:hover': {
+              fontSize: { xs: "0.85rem", sm: "0.9rem", md: "1rem" },
+              textDecoration: "none",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
                 color: theme.primary,
-                textDecoration: 'underline',
-                transform: 'scale(1.05)',
+                textDecoration: "underline",
+                transform: "scale(1.05)",
               },
               px: { xs: 1, sm: 1.5 },
               py: 0.5,
-              whiteSpace: 'nowrap',
+              whiteSpace: "nowrap",
             }}
           >
             {link.label}
@@ -77,8 +73,8 @@ const Footer = () => {
         variant="body2"
         sx={{
           color: theme.text,
-          fontFamily: 'Inter, sans-serif',
-          fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.85rem' },
+          fontFamily: "Inter, sans-serif",
+          fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.85rem" },
           opacity: 0.8,
           mt: { xs: 1, sm: 1.5 },
         }}
@@ -86,7 +82,7 @@ const Footer = () => {
         © {new Date().getFullYear()} SignExplorer. All rights reserved.
       </Typography>
     </Box>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

@@ -1,6 +1,5 @@
-"use client";
-
-import { useState, useEffect, useCallback, useMemo } from "react";
+"use client"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import {
   Box,
   Typography,
@@ -30,7 +29,7 @@ import {
   Tooltip,
   Badge,
   Divider,
-} from "@mui/material";
+} from "@mui/material"
 import {
   Refresh,
   ContentCopy,
@@ -51,41 +50,41 @@ import {
   Settings,
   Search,
   Star,
-} from "@mui/icons-material";
-import { motion, AnimatePresence } from "framer-motion";
+} from "@mui/icons-material"
+import { motion, AnimatePresence } from "framer-motion"
 
 // Deep Orange & Black Color Scheme
-const DEEP_ORANGE = "#FF4500";
-const BURNT_ORANGE = "#CC3700";
-const DARK_ORANGE = "#B8860B";
-const NEON_ORANGE = "#FF6347";
-const JET_BLACK = "#0A0A0A";
-const CHARCOAL = "#1C1C1C";
-const GRADIENT_ORANGE = "linear-gradient(135deg, #FF4500 0%, #FF6347 50%, #FF8C00 100%)";
-const GRADIENT_DARK = "linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 50%, #2A2A2A 100%)";
+const DEEP_ORANGE = "#FF4500"
+const BURNT_ORANGE = "#CC3700"
+const DARK_ORANGE = "#B8860B"
+const NEON_ORANGE = "#FF6347"
+const JET_BLACK = "#0A0A0A"
+const CHARCOAL = "#1C1C1C"
+const GRADIENT_ORANGE = "linear-gradient(135deg, #FF4500 0%, #FF6347 50%, #FF8C00 100%)"
+const GRADIENT_DARK = "linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 50%, #2A2A2A 100%)"
 
 const SignTokenDashboard = () => {
-  const [allTransactions, setAllTransactions] = useState([]);
-  const [filteredTransactions, setFilteredTransactions] = useState([]);
-  const [totalVolume, setTotalVolume] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10); // Default to 10 for mobile
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [minAmount, setMinAmount] = useState("");
-  const [maxAmount, setMaxAmount] = useState("");
-  const [autoRefresh, setAutoRefresh] = useState(true);
-  const [showFilters, setShowFilters] = useState(false);
-  const [sortBy, setSortBy] = useState("timestamp");
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [notifications, setNotifications] = useState(0);
-  const [lastUpdateTime, setLastUpdateTime] = useState(new Date());
-  const [latestTxHash, setLatestTxHash] = useState(null);
+  const [allTransactions, setAllTransactions] = useState([])
+  const [filteredTransactions, setFilteredTransactions] = useState([])
+  const [totalVolume, setTotalVolume] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10) // Default to 10 for mobile
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [copied, setCopied] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [minAmount, setMinAmount] = useState("")
+  const [maxAmount, setMaxAmount] = useState("")
+  const [autoRefresh, setAutoRefresh] = useState(true)
+  const [showFilters, setShowFilters] = useState(false)
+  const [sortBy, setSortBy] = useState("timestamp")
+  const [sortOrder, setSortOrder] = useState("desc")
+  const [notifications, setNotifications] = useState(0)
+  const [lastUpdateTime, setLastUpdateTime] = useState(new Date())
+  const [latestTxHash, setLatestTxHash] = useState(null)
 
-  const contractAddress = "0x868fced65edbf0056c4163515dd840e9f287a4c3";
-  const apiKey = "I1TNIHXXCRGXRA9KXV8P6XRQR4B4F9H6XJ";
+  const contractAddress = "0x868fced65edbf0056c4163515dd840e9f287a4c3"
+  const apiKey = "I1TNIHXXCRGXRA9KXV8P6XRQR4B4F9H6XJ"
 
   const theme = useMemo(
     () => ({
@@ -103,38 +102,39 @@ const SignTokenDashboard = () => {
       success: "#32CD32",
     }),
     [],
-  );
+  )
 
   const copyContract = useCallback(() => {
     navigator.clipboard.writeText(contractAddress).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }, [contractAddress]);
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }, [contractAddress])
 
   const exportToCSV = useCallback(() => {
-    const headers = ["Tx Hash", "Time", "From", "To", "Amount", "Token Symbol"];
+    const headers = ["Tx Hash", "Time", "From", "To", "Amount", "Token Symbol"]
     const csvContent = [
       headers.join(","),
       ...filteredTransactions.map((tx) => {
-        const amount = Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal);
-        const date = new Date(Number.parseInt(tx.timeStamp) * 1000).toLocaleString();
-        return [tx.hash, date, tx.from, tx.to, amount, tx.tokenSymbol].join(",");
+        const amount = Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal)
+        const date = new Date(Number.parseInt(tx.timeStamp) * 1000).toLocaleString()
+        return [tx.hash, date, tx.from, tx.to, amount, tx.tokenSymbol].join(",")
       }),
-    ].join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `sign_transactions_${new Date().toISOString().split("T")[0]}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }, [filteredTransactions]);
+    ].join("\n")
+
+    const blob = new Blob([csvContent], { type: "text/csv" })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `sign_transactions_${new Date().toISOString().split("T")[0]}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }, [filteredTransactions])
 
   const applyFilters = useCallback(() => {
-    let filtered = [...allTransactions];
+    let filtered = [...allTransactions]
 
     if (searchTerm) {
       filtered = filtered.filter(
@@ -142,110 +142,110 @@ const SignTokenDashboard = () => {
           tx.hash.toLowerCase().includes(searchTerm.toLowerCase()) ||
           tx.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
           tx.to.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
+      )
     }
 
     if (minAmount || maxAmount) {
       filtered = filtered.filter((tx) => {
-        const amount = Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal);
-        const min = minAmount ? Number.parseFloat(minAmount) : 0;
-        const max = maxAmount ? Number.parseFloat(maxAmount) : Number.POSITIVE_INFINITY;
-        return amount >= min && amount <= max;
-      });
+        const amount = Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal)
+        const min = minAmount ? Number.parseFloat(minAmount) : 0
+        const max = maxAmount ? Number.parseFloat(maxAmount) : Number.POSITIVE_INFINITY
+        return amount >= min && amount <= max
+      })
     }
 
     filtered.sort((a, b) => {
-      let aVal, bVal;
+      let aVal, bVal
       switch (sortBy) {
         case "amount":
-          aVal = Number.parseInt(a.value) / 10 ** Number.parseInt(a.tokenDecimal);
-          bVal = Number.parseInt(b.value) / 10 ** Number.parseInt(b.tokenDecimal);
-          break;
+          aVal = Number.parseInt(a.value) / 10 ** Number.parseInt(a.tokenDecimal)
+          bVal = Number.parseInt(b.value) / 10 ** Number.parseInt(b.tokenDecimal)
+          break
         case "timestamp":
         default:
-          aVal = Number.parseInt(a.timeStamp);
-          bVal = Number.parseInt(b.timeStamp);
-          break;
+          aVal = Number.parseInt(a.timeStamp)
+          bVal = Number.parseInt(b.timeStamp)
+          break
       }
-      return sortOrder === "asc" ? aVal - bVal : bVal - aVal;
-    });
+      return sortOrder === "asc" ? aVal - bVal : bVal - aVal
+    })
 
-    setFilteredTransactions(filtered);
-    setCurrentPage(1);
-  }, [allTransactions, searchTerm, minAmount, maxAmount, sortBy, sortOrder]);
+    setFilteredTransactions(filtered)
+    setCurrentPage(1)
+  }, [allTransactions, searchTerm, minAmount, maxAmount, sortBy, sortOrder])
 
   useEffect(() => {
-    applyFilters();
-  }, [allTransactions, searchTerm, minAmount, maxAmount, sortBy, sortOrder, applyFilters]);
+    applyFilters()
+  }, [allTransactions, searchTerm, minAmount, maxAmount, sortBy, sortOrder, applyFilters])
 
   const fetchTransactions = useCallback(async () => {
-    const url = `https://api.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&page=1&offset=100&sort=desc&apikey=${apiKey}`;
+    const url = `https://api.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&page=1&offset=100&sort=desc&apikey=${apiKey}`
     try {
-      setLoading(true);
-      setError("");
-
-      const response = await fetch(url);
-      const data = await response.json();
+      setLoading(true)
+      setError("")
+      const response = await fetch(url)
+      const data = await response.json()
 
       if (data.status === "1" && Array.isArray(data.result)) {
-        setAllTransactions(data.result);
+        setAllTransactions(data.result)
         const totalVol = data.result.reduce((sum, tx) => {
-          return sum + Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal);
-        }, 0);
-        setTotalVolume(totalVol);
+          return sum + Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal)
+        }, 0)
+        setTotalVolume(totalVol)
+
         if (data.result.length > 0 && data.result[0].hash !== latestTxHash) {
-          setNotifications((prev) => prev + 1);
-          setLatestTxHash(data.result[0].hash);
+          setNotifications((prev) => prev + 1)
+          setLatestTxHash(data.result[0].hash)
         }
-        setLastUpdateTime(new Date());
+        setLastUpdateTime(new Date())
       } else {
-        console.error("API error:", data.message || "Unknown error");
-        setError("Failed to fetch transactions. Please try again.");
+        console.error("API error:", data.message || "Unknown error")
+        setError("Failed to fetch transactions. Please try again.")
       }
     } catch (err) {
-      console.error("Error fetching transactions:", err);
-      setError("Error fetching transactions. Please check your connection.");
+      console.error("Error fetching transactions:", err)
+      setError("Error fetching transactions. Please check your connection.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [contractAddress, apiKey, latestTxHash]);
+  }, [contractAddress, apiKey, latestTxHash])
 
   useEffect(() => {
-    fetchTransactions();
-    let interval;
+    fetchTransactions()
+    let interval
     if (autoRefresh) {
-      interval = setInterval(fetchTransactions, 60000);
+      interval = setInterval(fetchTransactions, 60000)
     }
-    return () => interval && clearInterval(interval);
-  }, [autoRefresh, fetchTransactions]);
+    return () => interval && clearInterval(interval)
+  }, [autoRefresh, fetchTransactions])
 
-  const totalPages = Math.ceil(filteredTransactions.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = Math.min(startIndex + pageSize, filteredTransactions.length);
-  const currentTransactions = filteredTransactions.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredTransactions.length / pageSize)
+  const startIndex = (currentPage - 1) * pageSize
+  const endIndex = Math.min(startIndex + pageSize, filteredTransactions.length)
+  const currentTransactions = filteredTransactions.slice(startIndex, endIndex)
 
-  const totalTx = filteredTransactions.length;
-  const avgAmount = totalTx > 0 ? totalVolume / totalTx : 0;
+  const totalTx = filteredTransactions.length
+  const avgAmount = totalTx > 0 ? totalVolume / totalTx : 0
   const largestTx =
     filteredTransactions.length > 0
       ? Math.max(
           ...filteredTransactions.map((tx) => Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal)),
         )
-      : 0;
+      : 0
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-  };
+  }
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
-  };
+  }
 
   const clearNotifications = useCallback(() => {
-    setNotifications(0);
-  }, []);
+    setNotifications(0)
+  }, [])
 
   return (
     <Box
@@ -316,7 +316,10 @@ const SignTokenDashboard = () => {
                   maxWidth: { xs: "150px", sm: "200px", md: "300px" },
                 }}
               >
-                Contract: <strong>{contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}</strong>
+                Contract:{" "}
+                <strong>
+                  {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
+                </strong>
               </Typography>
               <Tooltip title={copied ? "Copied!" : "Copy contract address"} arrow>
                 <IconButton
@@ -344,11 +347,7 @@ const SignTokenDashboard = () => {
 
         {/* Stats Cards */}
         <motion.div variants={itemVariants}>
-          <Grid
-            container
-            spacing={{ xs: 1, sm: 1.5, md: 2, lg: 2.5 }}
-            mb={{ xs: 2, sm: 3, md: 4, lg: 5 }}
-          >
+          <Grid container spacing={{ xs: 1, sm: 1.5, md: 2, lg: 2.5 }} mb={{ xs: 2, sm: 3, md: 4, lg: 5 }}>
             {[
               { icon: SwapHoriz, value: totalTx, label: "Total Transactions", color: theme.primary },
               { icon: MonetizationOn, value: totalVolume.toFixed(2), label: "Total Volume", color: theme.secondary },
@@ -686,8 +685,8 @@ const SignTokenDashboard = () => {
                         <Select
                           value={pageSize}
                           onChange={(e) => {
-                            setPageSize(e.target.value);
-                            setCurrentPage(1);
+                            setPageSize(e.target.value)
+                            setCurrentPage(1)
                           }}
                           sx={{
                             color: theme.text,
@@ -757,7 +756,6 @@ const SignTokenDashboard = () => {
                 Showing {startIndex + 1} - {endIndex} of {filteredTransactions.length}
               </Typography>
             </Box>
-
             {loading && (
               <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", py: 4 }}>
                 <CircularProgress sx={{ color: theme.primary }} />
@@ -766,7 +764,6 @@ const SignTokenDashboard = () => {
                 </Typography>
               </Box>
             )}
-
             {!loading && (
               <TableContainer sx={{ maxWidth: "100%", overflowX: "auto" }}>
                 <Table sx={{ minWidth: { xs: 500, sm: 700 } }}>
@@ -811,10 +808,10 @@ const SignTokenDashboard = () => {
                         </TableRow>
                       ) : (
                         currentTransactions.map((tx, index) => {
-                          const amount = Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal);
-                          const percentage = (totalVolume > 0 ? (amount / totalVolume) * 100 : 0).toFixed(1);
-                          const date = new Date(Number.parseInt(tx.timeStamp) * 1000).toLocaleString();
-                          const isLargeTransaction = amount > avgAmount * 2 && avgAmount > 0;
+                          const amount = Number.parseInt(tx.value) / 10 ** Number.parseInt(tx.tokenDecimal)
+                          const percentage = (totalVolume > 0 ? (amount / totalVolume) * 100 : 0).toFixed(1)
+                          const date = new Date(Number.parseInt(tx.timeStamp) * 1000).toLocaleString()
+                          const isLargeTransaction = amount > avgAmount * 2 && avgAmount > 0
                           return (
                             <motion.tr
                               key={tx.hash}
@@ -872,7 +869,7 @@ const SignTokenDashboard = () => {
                               >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                                   <img
-                                    src="/SIGN6.jpeg"
+                                    src="/SIGN6.png"
                                     alt="$SIGN Token Logo"
                                     style={{ width: 16, height: 16, marginRight: 4 }}
                                   />
@@ -911,7 +908,7 @@ const SignTokenDashboard = () => {
                               >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                                   <img
-                                    src="/SIGN6.jpeg"
+                                    src="/SIGN6.png"
                                     alt="$SIGN Token Logo"
                                     style={{ width: 16, height: 16, marginRight: 4 }}
                                   />
@@ -1014,7 +1011,7 @@ const SignTokenDashboard = () => {
                                 </Box>
                               </TableCell>
                             </motion.tr>
-                          );
+                          )
                         })
                       )}
                     </AnimatePresence>
@@ -1022,7 +1019,6 @@ const SignTokenDashboard = () => {
                 </Table>
               </TableContainer>
             )}
-
             {totalPages > 1 && (
               <Box
                 display="flex"
@@ -1073,10 +1069,7 @@ const SignTokenDashboard = () => {
               boxShadow: `0 0 10px ${theme.primary}10`,
             }}
           >
-            <Typography
-              variant="body2"
-              sx={{ color: theme.accent, mb: 1, fontSize: { xs: "0.7rem", sm: "0.8rem" } }}
-            >
+            <Typography variant="body2" sx={{ color: theme.accent, mb: 1, fontSize: { xs: "0.7rem", sm: "0.8rem" } }}>
               Dashboard Statistics
             </Typography>
             <Grid container spacing={1} justifyContent="center">
@@ -1100,7 +1093,7 @@ const SignTokenDashboard = () => {
         </motion.div>
       </motion.div>
     </Box>
-  );
-};
+  )
+}
 
-export default SignTokenDashboard;
+export default SignTokenDashboard
