@@ -337,7 +337,7 @@ const SignTokenDashboard = () => {
               variant="caption"
               sx={{ color: theme.accent, mt: 1, display: "block", fontSize: { xs: "0.7rem", sm: "0.8rem" } }}
             >
-              (Data from Etherscan API)
+              (Track it down)
             </Typography>
           </Box>
         </motion.div>
