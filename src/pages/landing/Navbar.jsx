@@ -38,6 +38,11 @@ const Navbar = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const navItems = [
+    { label: 'About', href: '/' },
+    // Add more navigation items as needed
+  ];
+
   const drawer = (
     <Box
       sx={{
@@ -45,29 +50,36 @@ const Navbar = () => {
         height: '100%',
         p: 2,
         color: theme.text,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}
       onClick={handleDrawerToggle}
     >
       <List>
-        <ListItem
-          component="a"
-          href="/creator"
-          sx={{
-            '&:hover': {
-              backgroundColor: `${theme.primary}20`,
-              color: theme.primary,
-            },
-          }}
-        >
-          <ListItemText
-            primary="Creator"
-            primaryTypographyProps={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 500,
-              fontSize: '1rem',
+        {navItems.map((item) => (
+          <ListItem
+            key={item.label}
+            component="a"
+            href={item.href}
+            sx={{
+              py: 1.5,
+              '&:hover': {
+                backgroundColor: `${theme.primary}20`,
+                color: theme.primary,
+              },
             }}
-          />
-        </ListItem>
+          >
+            <ListItemText
+              primary={item.label}
+              primaryTypographyProps={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+                fontSize: '1rem',
+              }}
+            />
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
@@ -85,7 +97,11 @@ const Navbar = () => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          px: { xs: 2, sm: 3, md: 4 },
+          px: { xs: 2, sm: 3, md: 4, lg: 6 },
+          py: { xs: 1, sm: 1.5 },
+          maxWidth: '1400px', // Limit max width for large screens
+          mx: 'auto', // Center the toolbar
+          width: '100%',
         }}
       >
         {/* Logo */}
@@ -98,33 +114,43 @@ const Navbar = () => {
             fontWeight: 700,
             color: theme.primary,
             textDecoration: 'none',
-            fontSize: { xs: '1.2rem', sm: '1.5rem' },
+            fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
+            flexShrink: 0,
           }}
         >
           SignExplorer
         </Typography>
 
         {/* Desktop Navigation */}
-        <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: { xs: 1, sm: 2, md: 3 } }}>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              component="a"
-              href="/creator"
-              sx={{
-                color: theme.text,
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 500,
-                fontSize: { xs: '0.9rem', sm: '1rem' },
-                textTransform: 'none',
-                '&:hover': {
-                  color: theme.primary,
-                  backgroundColor: `${theme.primary}10`,
-                },
-              }}
-            >
-              Creator
-            </Button>
-          </motion.div>
+        <Box
+          sx={{
+            display: { xs: 'none', md: 'flex' },
+            gap: { sm: 1, md: 2, lg: 3 },
+            alignItems: 'center',
+          }}
+        >
+          {navItems.map((item) => (
+            <motion.div key={item.label} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                component="a"
+                href={item.href}
+                sx={{
+                  color: theme.text,
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 500,
+                  fontSize: { sm: '0.9rem', md: '1rem', lg: '1.1rem' },
+                  textTransform: 'none',
+                  px: { sm: 1.5, md: 2 },
+                  '&:hover': {
+                    color: theme.primary,
+                    backgroundColor: `${theme.primary}10`,
+                  },
+                }}
+              >
+                {item.label}
+              </Button>
+            </motion.div>
+          ))}
         </Box>
 
         {/* Mobile Menu Button */}
@@ -133,9 +159,13 @@ const Navbar = () => {
           aria-label="open drawer"
           edge="end"
           onClick={handleDrawerToggle}
-          sx={{ display: { sm: 'none' }, color: theme.primary }}
+          sx={{
+            display: { md: 'none' },
+            color: theme.primary,
+            p: { xs: 0.5, sm: 1 },
+          }}
         >
-          <Menu />
+          <Menu fontSize="large" />
         </IconButton>
       </Toolbar>
 
@@ -146,7 +176,7 @@ const Navbar = () => {
         onClose={handleDrawerToggle}
         sx={{
           '& .MuiDrawer-paper': {
-            width: '200px',
+            width: { xs: '70%', sm: '50%', maxWidth: '300px' },
             background: theme.dark,
           },
         }}
